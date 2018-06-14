@@ -1,0 +1,7 @@
+FROM golang:1.10-alpine
+LABEL maintainer "saboyutaka<yutaka.paradigm.shift@gmail.com>"
+
+ENV APP_PATH=${GOPATH}/src/github.com/saboyutaka/grpc-gw-sample
+
+COPY . ${APP_PATH}
+WORKDIR ${APP_PATH}

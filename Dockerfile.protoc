@@ -1,0 +1,31 @@
+FROM golang:1.10-alpine
+LABEL maintainer "saboyutaka<yutaka.paradigm.shift@gmail.com>"
+
+RUN mkdir -p /app
+WORKDIR /app
+
+ENV GOPATH=/go \
+	PATH=/go/bin/:/usr/include:$PATH
+
+RUN apk add --no-cache protobuf-dev
+
+RUN apk add --no-cache --virtual .goget \
+	git openssh && \
+	go get -u -v \
+	github.com/Masterminds/glide \
+	github.com/golang/protobuf/protoc-gen-go \
+	github.com/gogo/protobuf/protoc-gen-gofast \
+	github.com/gogo/protobuf/protoc-gen-gogo \
+	github.com/gogo/protobuf/protoc-gen-gogofast \
+	github.com/gogo/protobuf/protoc-gen-gogofaster \
+	github.com/gogo/protobuf/protoc-gen-gogoslick \
+	github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger \
+	github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway \
+	github.com/johanbrandhorst/protobuf/protoc-gen-gopherjs \
+	github.com/ckaznocha/protoc-gen-lint \
+	github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc \
+	&& \
+	apk del .goget
+
+ENTRYPOINT ["/usr/bin/protoc"]
+CMD ["--help"]

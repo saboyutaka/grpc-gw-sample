@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package gwsamplepb;
+
+import "google/api/annotations.proto";
+
+message RequestMessage {
+    string value = 1;
+}
+
+message ResponseMessage {
+    string result = 1;
+}
+
+service GatewaySample {
+    rpc Echo(RequestMessage) returns (ResponseMessage) {
+        option (google.api.http) = {
+            post: "/v1/example/echo"
+            body: "*"
+        };
+    }
+}
